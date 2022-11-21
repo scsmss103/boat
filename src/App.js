@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Drawer, Button, Box, Stack, IconButton, Menu, MenuItem } from '@mui/material';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import { Home } from './home.js'
+
 
 function App() {
+
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  function DrawerButton(props) {
+    return (
+      <>
+        <Button variant='text' component={Link} {...props} />
+      </>
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <IconButton onClick={() => setDrawerOpen(true)} style={{ backgroundColor: 'lightgrey' }}  >
+          <MenuRoundedIcon />
+        </IconButton>
+        <Drawer anchor='left' open={drawerOpen} onClose={() => setDrawerOpen(false)} >
+          <Stack direction='columns' space={0.5} >
+            <DrawerButton to='/' >HOME</DrawerButton>
+          </Stack>
+        </Drawer>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
